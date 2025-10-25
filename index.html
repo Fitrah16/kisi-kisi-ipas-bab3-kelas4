@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT IPAS Kelas 4 - Bab 3</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c5530 0%, #1a365d 100%);
+            min-height: 100%;
+        }
+        
+        html {
+            height: 100%;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-card, .exam-card, .result-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2c5530;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #1a365d;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c5530;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #2c5530;
+            box-shadow: 0 0 0 3px rgba(44, 85, 48, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #2c5530 0%, #1a365d 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            border-left: 5px solid #2c5530;
+        }
+
+        .question-number {
+            color: #1a365d;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            color: #2d3748;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            border-color: #2c5530;
+            background: #f0fff4;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        .option.selected {
+            border-color: #2c5530;
+            background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .finish-btn {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #2c5530 0%, #1a365d 100%);
+            transition: width 0.3s ease;
+        }
+
+        .timer {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #e53e3e;
+            margin-bottom: 20px;
+        }
+
+        .result-summary {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #2c5530;
+            margin-bottom: 10px;
+        }
+
+        .score-text {
+            font-size: 1.3rem;
+            color: #4a5568;
+        }
+
+        .review-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border-left: 4px solid #e2e8f0;
+        }
+
+        .review-item.correct {
+            border-left-color: #38a169;
+            background: #f0fff4;
+        }
+
+        .review-item.incorrect {
+            border-left-color: #e53e3e;
+            background: #fff5f5;
+        }
+
+        .review-question {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .review-answer {
+            margin-bottom: 8px;
+        }
+
+        .correct-answer {
+            color: #38a169;
+            font-weight: 600;
+        }
+
+        .incorrect-answer {
+            color: #e53e3e;
+            font-weight: 600;
+        }
+
+        .explanation {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-style: italic;
+            color: #4a5568;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .login-card, .exam-card, .result-card {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="container">
+        <div class="login-card">
+            <div class="header">
+                <h1>🌍 CBT IPAS</h1>
+                <p>Kelas 4 - Bab 3: Peta dan Kenampakan Alam</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="studentName">Nama Siswa:</label>
+                    <input type="text" id="studentName" name="studentName" required placeholder="Masukkan nama lengkap Anda">
+                </div>
+                <button type="submit" class="btn">Mulai Ujian</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Exam Screen -->
+    <div id="examScreen" class="container hidden">
+        <div class="exam-card">
+            <div class="header">
+                <h1>🌍 CBT IPAS</h1>
+                <div class="timer" id="timer">Waktu: 30:00</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            
+            <div id="questionContainer"></div>
+            
+            <div class="navigation">
+                <button class="nav-btn" id="prevBtn" onclick="previousQuestion()" disabled>⬅️ Sebelumnya</button>
+                <span id="questionInfo">Soal 1 dari 20</span>
+                <button class="nav-btn" id="nextBtn" onclick="nextQuestion()">Selanjutnya ➡️</button>
+                <button class="nav-btn finish-btn hidden" id="finishBtn" onclick="finishExam()">🏁 Selesai</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div id="resultScreen" class="container hidden">
+        <div class="result-card">
+            <div class="header">
+                <h1>🎉 Hasil Ujian</h1>
+            </div>
+            
+            <div class="result-summary">
+                <div class="score" id="finalScore">0</div>
+                <div class="score-text" id="scoreText">dari 20 soal</div>
+                <p id="studentNameResult"></p>
+            </div>
+            
+            <div id="reviewContainer"></div>
+            
+            <button class="btn" onclick="restartExam()">🔄 Ulangi Ujian</button>
+        </div>
+    </div>
+
+    <script>
+        // Data soal dan jawaban
+        const questionsData = [
+            {
+                question: "Gambar seluruh atau sebagian dari permukaan bumi yang dilukiskan ke suatu bidang datar dengan perbandingan atau skala tertentu disebut . . . .",
+                options: ["atlas", "peta", "globe", "buku"],
+                correct: 1,
+                explanation: "Peta adalah gambar permukaan bumi yang digambar pada bidang datar dengan skala tertentu."
+            },
+            {
+                question: "Peta memiliki berbagai simbol yang terdapat di dalamnya dan memiliki artinya masing-masing. termasuk simbol warna, Warna kuning yang terdapat pada peta menunjukkan . . . .",
+                options: ["puncak yang tertutup salju", "perairan", "dataran rendah", "dataran tinggi"],
+                correct: 2,
+                explanation: "Warna kuning pada peta konvensional menunjukkan dataran rendah dengan ketinggian rendah."
+            },
+            {
+                question: "Setiap kenampakan alam pada peta memiliki simbolnya masing-masing. Gunung berapi di dalam peta disimbolkan dengan segitiga berwarna....",
+                options: ["hitam", "biru", "merah", "putih"],
+                correct: 2,
+                explanation: "Gunung berapi disimbolkan dengan segitiga merah karena melambangkan api dan lava."
+            },
+            {
+                question: "Peta memiliki berbagai komponen. Keterangan dari gambar yang terdapat pada peta yang digunakan untuk mewakili setiap kenampakan alam yang dibuat dinamakan . . .",
+                options: ["simbol peta", "petunjuk mata angin", "tema peta", "legenda peta"],
+                correct: 3,
+                explanation: "Legenda peta adalah keterangan yang menjelaskan arti simbol-simbol yang ada pada peta."
+            },
+            {
+                question: "Pada peta dengan skala 1: 200.000 jarak antara kota X ke kota Y adalah 4 cm. Jarak antara kota X dan Y sebenarnya adalah . . . .",
+                options: ["5 km", "10 km", "8 km", "20 km"],
+                correct: 2,
+                explanation: "Jarak sebenarnya = jarak pada peta × skala = 4 cm × 200.000 = 800.000 cm = 8 km."
+            },
+            {
+                question: "Perhatikan jenis-jenis peta di bawah ini: 1) Peta dunia 2) Peta korografi 3) Peta curah hujan 4) Peta topografi 5) Peta pembagian waktu. Berdasarkan data tersebut yang termasuk peta umum ditunjukkan oleh nomor ...",
+                options: ["1,2, dan 4", "2,4, dan 5", "1,2, dan 3", "3,4, dan 5"],
+                correct: 0,
+                explanation: "Peta umum meliputi peta dunia, peta korografi, dan peta topografi yang menunjukkan kenampakan umum."
+            },
+            {
+                question: "Bentuk peta yang digambar harus sebangun dengan keadaan sebenarnya di lapangan, disebut dengan . . . .",
+                options: ["ekuivalen", "skudistan", "konform", "landform"],
+                correct: 2,
+                explanation: "Konform adalah sifat peta yang mempertahankan bentuk sebenarnya dari objek di lapangan."
+            },
+            {
+                question: "Berikut fungsi utama dari peta adalah untuk . . . .",
+                options: ["mencari peninggalan sejarah", "mengetahui letak suatu tempat", "menganalisis potensi kekayaan alam suatu daerah", "memprogram pekerjaan dalam lingkup kewilayahan"],
+                correct: 1,
+                explanation: "Fungsi utama peta adalah untuk mengetahui letak dan posisi suatu tempat di permukaan bumi."
+            },
+            {
+                question: "Pada peta terdapat garis-garis tegak (vertikal) dan garis-garis mendatar (horizontal) Adapun garis-garis itu disebut . . . .",
+                options: ["garis batas", "garis negara", "garis astronomis", "garis geografis"],
+                correct: 2,
+                explanation: "Garis astronomis terdiri dari garis lintang (horizontal) dan garis bujur (vertikal) untuk menentukan koordinat."
+            },
+            {
+                question: "Berikut bukan langkah-langkah dalam membaca peta adalah . . . .",
+                options: ["Menjiplak", "menentukan letak wilayah", "menyebutkan pembagian wilayah", "menyebutkan batas wilayah"],
+                correct: 0,
+                explanation: "Menjiplak bukan termasuk langkah membaca peta. Membaca peta meliputi menentukan letak, pembagian, dan batas wilayah."
+            },
+            {
+                question: "Sebagian fenomena atau objek yang ada pada peta tidak bersifat tetap atau mengalami perubahan, sehingga dalam pembuatan peta terdapat pada komponen . . . .",
+                options: ["tahun pembuatan peta", "sumber peta", "inset", "judul peta"],
+                correct: 0,
+                explanation: "Tahun pembuatan peta penting karena kondisi geografis dapat berubah seiring waktu."
+            },
+            {
+                question: "Salah satu bentuk simbol dalam peta adalah warna. Warna biru adalah simbol untuk daerah . . . .",
+                options: ["dataran tinggi", "perairan", "pegunungan", "dataran rendah"],
+                correct: 1,
+                explanation: "Warna biru pada peta melambangkan perairan seperti laut, sungai, dan danau."
+            },
+            {
+                question: "Bentuk permukaan bumi tidaklah rata. Wilayah daratan luas yang terletak pada ketinggian di atas 200 meter dari permukaan laut adalah . . . .",
+                options: ["dataran tinggi", "gunung", "dataran rendah", "pegunungan"],
+                correct: 0,
+                explanation: "Dataran tinggi adalah wilayah datar yang berada pada ketinggian di atas 200 meter dari permukaan laut."
+            },
+            {
+                question: "Kenampakan alam berupa cekungan berisi air yang dikelilingi daratan disebut . . . .",
+                options: ["laut", "sungai", "selat", "danau"],
+                correct: 3,
+                explanation: "Danau adalah cekungan berisi air yang dikelilingi oleh daratan di semua sisinya."
+            },
+            {
+                question: "Di bawah ini yang bukan ciri-ciri gunung adalah . . .",
+                options: ["sebuah bukit yang berukuran besar", "ketinggian lebih dari 600 meter di atas", "ketinggian lebih dari 200 m di atas", "kadang-kadang mengeluarkan lava"],
+                correct: 2,
+                explanation: "Gunung memiliki ketinggian lebih dari 600 meter, bukan 200 meter. Ketinggian 200 meter adalah ciri dataran tinggi."
+            },
+            {
+                question: "Segala sesuatu yang ada di alam atau segala sesuatu yang ada di atas bumi yang secara alamiah disebut . . . .",
+                options: ["gejala alam", "kenampakan alam", "peristiwa alam", "sumber daya alami"],
+                correct: 1,
+                explanation: "Kenampakan alam adalah segala sesuatu yang tampak di permukaan bumi secara alamiah."
+            },
+            {
+                question: "Daerah yang panjang dan rendah yang biasanya ditemukan di antara perbukitan dan pegunungan adalah . . . .",
+                options: ["lembah", "tanjung", "gunung", "dataran rendah"],
+                correct: 0,
+                explanation: "Lembah adalah daerah rendah yang memanjang di antara perbukitan atau pegunungan."
+            },
+            {
+                question: "Perhatikan berbagai kenampakan alam berikut! 1) Sungai 2) Waduk 3) Dataran rendah 4) Pegunungan. Kenampakan alam yang dapat dimanfaatkan oleh masyarakat setempat untuk PLTA ditunjukkan oleh nomor . . . .",
+                options: ["1 dan 2", "2 dan 3", "3 dan 4", "1 dan 4"],
+                correct: 0,
+                explanation: "PLTA (Pembangkit Listrik Tenaga Air) memanfaatkan aliran air dari sungai dan waduk untuk menghasilkan listrik."
+            },
+            {
+                question: "Bentang alam yang ada di permukaan bumi terbentuk melalui berbagai proses. Segala kegiatan magma dari lapisan dalam bumi yang menyebabkan perubahan bentuk muka bumi disebut . . . .",
+                options: ["tenaga endogen", "tenaga eksogen", "erosi", "sedimentasi"],
+                correct: 0,
+                explanation: "Tenaga endogen adalah tenaga dari dalam bumi seperti aktivitas magma yang membentuk gunung berapi dan gempa."
+            },
+            {
+                question: "Proses pengikisan batuan oleh air, angin, atau es yang menyebabkan perubahan bentuk permukaan bumi disebut . . . .",
+                options: ["sedimentasi", "erosi", "vulkanisme", "tektonisme"],
+                correct: 1,
+                explanation: "Erosi adalah proses pengikisan dan pengangkutan material batuan oleh tenaga air, angin, atau es."
+            },
+            {
+                question: "Lapisan dalam litosfer menyusup ke lapisan yang lebih atas atau sampai ke luar permukaan bumi disebut . . . .",
+                options: ["pelapukan", "vulkanisme", "erosi", "sedimentasi"],
+                correct: 1,
+                explanation: "Vulkanisme adalah proses keluarnya magma dari dalam bumi ke permukaan melalui gunung berapi."
+            },
+            {
+                question: "Tenaga yang bekerja dari dalam bumi yang mengakibatkan pergeseran dan perubahan posisi lapisan batuan, sehingga mengubah bentuk muka bumi disebut . . . .",
+                options: ["tektonisme", "vulkanisme", "sedimentasi", "pelapukan"],
+                correct: 0,
+                explanation: "Tektonisme adalah tenaga dari dalam bumi yang menyebabkan pergeseran dan pelipatan lapisan batuan."
+            },
+            {
+                question: "Bumi memiliki berbagai lapisan yang menyusunnya. Urutan lapisan bumi dari luar ke dalam yaitu . . . .",
+                options: ["kerak, inti, dan mantel bumi", "kerak, mantel, dan inti bumi", "mantel, kerak, dan inti bumi", "inti, mantel, dan kerak bumi"],
+                correct: 1,
+                explanation: "Urutan lapisan bumi dari luar ke dalam adalah kerak bumi, mantel bumi, dan inti bumi."
+            },
+            {
+                question: "Salah satu kenampakan alam berupa rawa. Berikut pernyataan yang tepat tentang rawa adalah . . . .",
+                options: ["perairan yang sangat luas dan dalam", "laut sempit yang terletak di antara dua pulau", "aliran air yang panjang yang berasal dari mata air", "daerah yang digenangi air dengan tanah yang berlumpur"],
+                correct: 3,
+                explanation: "Rawa adalah daerah yang tergenang air dengan tanah berlumpur, biasanya ditumbuhi tumbuhan air."
+            },
+            {
+                question: "Perhatikan beberapa ciri-ciri kenampakan alam berikut: 1) Memiliki suhu udara tinggi antara 23 derajat hingga 31 2) Tanahnya subur dengan kelembapan yang pas sehingga cocok untuk lahan pertanian 3) Banyak dialiri sungai-sungai sebagai sumber air alami 4) Menjadi pusat kegiatan manusia dalam perdagangan, pendidikan, bisnis, dan transportasi. Ciri-ciri tersebut merupakan gambaran dari permukaan alam berupa . . .",
+                options: ["dataran tinggi", "pegunungan", "dataran rendah", "perbukitan"],
+                correct: 2,
+                explanation: "Ciri-ciri tersebut menunjukkan dataran rendah yang memiliki iklim hangat, tanah subur, dan menjadi pusat aktivitas manusia."
+            },
+            {
+                question: "Kerak bumi yang berada di bawah tanah dan mempunyai ketebalan sekitar 20-70 km dengan batuan penyusun utamanya adalah granit, yang tidak sepadat batuan basalt disebut . . . .",
+                options: ["kerak samudra", "selimut bumi", "astenosfer", "kerak benua"],
+                correct: 3,
+                explanation: "Kerak benua memiliki ketebalan 20-70 km dengan batuan utama granit yang lebih ringan dari basalt."
+            },
+            {
+                question: "Lapisan yang termasuk dalam lapisan mantel bumi adalah . . .",
+                options: ["litosfer, hidrosfer, dan atmosfer", "litosfer, astenosfer, dan atmosfer", "litosfer, astenosfer, dan mesosfer", "litosfer, mesosfer, dan hidrosfer"],
+                correct: 2,
+                explanation: "Lapisan mantel bumi terdiri dari litosfer (bagian atas), astenosfer (bagian tengah), dan mesosfer (bagian bawah)."
+            }
+        ];
+
+        // Variabel global
+        let currentStudent = '';
+        let selectedQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let timeLeft = 1800; // 30 menit
+        let timerInterval;
+
+        // Fungsi untuk mengacak array
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Fungsi login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const studentName = document.getElementById('studentName').value.trim();
+            if (studentName) {
+                currentStudent = studentName;
+                startExam();
+            }
+        });
+
+        // Fungsi memulai ujian
+        function startExam() {
+            // Acak 20 soal dari total soal
+            const shuffledQuestions = shuffleArray(questionsData);
+            selectedQuestions = shuffledQuestions.slice(0, 20);
+            
+            // Acak pilihan jawaban untuk setiap soal
+            selectedQuestions.forEach(question => {
+                const correctAnswer = question.options[question.correct];
+                question.options = shuffleArray(question.options);
+                question.correct = question.options.indexOf(correctAnswer);
+            });
+
+            userAnswers = new Array(20).fill(-1);
+            currentQuestionIndex = 0;
+            
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('examScreen').classList.remove('hidden');
+            
+            displayQuestion();
+            startTimer();
+        }
+
+        // Fungsi menampilkan soal
+        function displayQuestion() {
+            const question = selectedQuestions[currentQuestionIndex];
+            const container = document.getElementById('questionContainer');
+            
+            container.innerHTML = `
+                <div class="question-container">
+                    <div class="question-number">Soal ${currentQuestionIndex + 1}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option ${userAnswers[currentQuestionIndex] === index ? 'selected' : ''}" onclick="selectAnswer(${index})">
+                                <input type="radio" name="answer" value="${index}" ${userAnswers[currentQuestionIndex] === index ? 'checked' : ''}>
+                                <span>${String.fromCharCode(97 + index)}. ${option}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            updateNavigation();
+            updateProgress();
+        }
+
+        // Fungsi memilih jawaban
+        function selectAnswer(answerIndex) {
+            userAnswers[currentQuestionIndex] = answerIndex;
+            
+            // Update tampilan pilihan
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.classList.toggle('selected', index === answerIndex);
+                const radio = option.querySelector('input[type="radio"]');
+                radio.checked = index === answerIndex;
+            });
+        }
+
+        // Fungsi navigasi
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < selectedQuestions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            }
+        }
+
+        // Fungsi update navigasi
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+            const questionInfo = document.getElementById('questionInfo');
+            
+            prevBtn.disabled = currentQuestionIndex === 0;
+            
+            if (currentQuestionIndex === selectedQuestions.length - 1) {
+                nextBtn.classList.add('hidden');
+                finishBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                finishBtn.classList.add('hidden');
+            }
+            
+            questionInfo.textContent = `Soal ${currentQuestionIndex + 1} dari ${selectedQuestions.length}`;
+        }
+
+        // Fungsi update progress
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / selectedQuestions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Fungsi timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').textContent = 
+                    `Waktu: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    finishExam();
+                }
+            }, 1000);
+        }
+
+        // Fungsi selesai ujian
+        function finishExam() {
+            clearInterval(timerInterval);
+            
+            document.getElementById('examScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            
+            showResults();
+        }
+
+        // Fungsi menampilkan hasil
+        function showResults() {
+            let correctCount = 0;
+            
+            selectedQuestions.forEach((question, index) => {
+                if (userAnswers[index] === question.correct) {
+                    correctCount++;
+                }
+            });
+            
+            const score = Math.round((correctCount / selectedQuestions.length) * 100);
+            
+            document.getElementById('finalScore').textContent = correctCount;
+            document.getElementById('scoreText').textContent = `dari ${selectedQuestions.length} soal (${score}%)`;
+            document.getElementById('studentNameResult').textContent = `Nama: ${currentStudent}`;
+            
+            // Tampilkan review jawaban
+            const reviewContainer = document.getElementById('reviewContainer');
+            reviewContainer.innerHTML = selectedQuestions.map((question, index) => {
+                const isCorrect = userAnswers[index] === question.correct;
+                const userAnswerText = userAnswers[index] !== -1 ? question.options[userAnswers[index]] : 'Tidak dijawab';
+                const correctAnswerText = question.options[question.correct];
+                
+                return `
+                    <div class="review-item ${isCorrect ? 'correct' : 'incorrect'}">
+                        <div class="review-question">Soal ${index + 1}: ${question.question}</div>
+                        <div class="review-answer">
+                            Jawaban Anda: <span class="${isCorrect ? 'correct-answer' : 'incorrect-answer'}">${userAnswerText}</span>
+                        </div>
+                        ${!isCorrect ? `<div class="review-answer">Jawaban Benar: <span class="correct-answer">${correctAnswerText}</span></div>` : ''}
+                        <div class="explanation">${question.explanation}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Fungsi restart ujian
+        function restartExam() {
+            currentStudent = '';
+            selectedQuestions = [];
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            timeLeft = 1800;
+            
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('studentName').value = '';
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9939d0f31582b4ac',t:'MTc2MTMxMjQ5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
